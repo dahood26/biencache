@@ -1,0 +1,9 @@
+{
+  "name": "bien-cache-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Landing page statique de Bien Caché — agence immobilière, Paris.",
+  "scripts": {
+    "dev": "npx serve ."
+  }
+}
