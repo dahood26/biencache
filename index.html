@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bien Caché</title>
+<title>Bien Caché - l'immobilier revisité</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -35,6 +35,305 @@
   .text-block .price{font-weight:700; color:var(--brass);}
   .text-block .signature{font-family:'Fraunces', serif; font-style:italic; font-size:18px; margin-top:36px; text-align:left;}
 
+  .toggle{display:flex; gap:0; margin:48px 0 32px; border:1px solid var(--ink); max-width:420px;}
+  .toggle button{
+    flex:1; padding:13px; font-family:'Archivo',sans-serif; font-size:14px; font-weight:600;
+    background:transparent; border:none; cursor:pointer; color:var(--ink);
+  }
+  .toggle button.active{background:var(--brass); color:#fff;}
+
+  .form-panel{display:none;}
+  .form-panel.active{display:block;}
+  fieldset{border:none; margin-bottom:30px; padding:0;}
+  fieldset legend{
+    font-family:'Fraunces', serif; font-size:17px; font-weight:500;
+    margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--line); width:100%;
+  }
+  .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .field-grid{grid-template-columns:1fr;} }
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field.full{grid-column:1/-1;}
+  label{font-size:13px; color:var(--muted); font-weight:500;}
+  label .opt{font-weight:400; font-style:italic;}
+  input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea{
+    font-family:'Archivo', sans-serif; font-size:15px;
+    padding:11px 13px; border:0.5px solid var(--line); border-radius:2px;
+    background:var(--paper); color:var(--ink); width:100%;
+  }
+  input:focus, select:focus, textarea:focus{outline:1px solid var(--brass);}
+  textarea{min-height:90px; resize:vertical;}
+  .checkbox-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:8px 10px;}
+  @media (max-width:640px){ .checkbox-grid{grid-template-columns:repeat(4,1fr);} }
+  .checkbox-grid label{
+    display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink);
+    font-weight:400; cursor:pointer;
+  }
+  .check-row{display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--ink-soft);}
+  .check-row input{margin-top:3px;}
+  .check-row.required label::after{content:" *"; color:var(--brass);}
+  .file-hint{font-size:12px; color:var(--muted); margin-top:2px;}
+  .form-status{font-size:13px; color:var(--muted); margin-top:10px;}
+  .btn{
+    display:inline-block; font-family:'Archivo', sans-serif; font-size:15px; font-weight:600;
+    padding:13px 26px; border-radius:2px; text-decoration:none; cursor:pointer;
+    border:1px solid var(--brass); background:var(--brass); color:#fff;
+  }
+  .btn:hover{background:var(--brass-deep);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="logo-wrap">
+    <img src="logo-bien-cache.png" alt="Bien Caché" class="site-logo">
+  </div>
+
+  <div class="text-block">
+    <h1>Comme l'impression de dépendre des agences, chasseurs et autres portails immobiliers pour vendre ou acheter&nbsp;?</h1>
+    <p>Nous supprimons ces intermédiaires pour défendre au mieux vos intérêts financiers.</p>
+    <p>Tous les biens dans notre base de données le sont en exclusivité, pour une durée limitée d'un mois. Mais vous n'en verrez aucun sur notre site afin d'en préserver la rareté. Nous ne vous les envoyons par mail que si leurs critères correspondent réellement à ceux de votre recherche.</p>
+    <p>Notre modèle économique est simple, vous ne payez que <span class="price">4,99€</span> pour obtenir le contact du propriétaire du bien qui vous intéresse.</p>
+    <p class="signature">Bien Caché - votre première visite commence ici.</p>
+  </div>
+
+  <div class="toggle">
+    <button type="button" class="active" data-panel="vendeur">Je vends</button>
+    <button type="button" data-panel="acheteur">Je cherche</button>
+  </div>
+
+  <!-- FORMULAIRE VENDEUR -->
+  <form id="form-vendeur" class="form-panel active">
+    <input type="hidden" name="_subject" value="Nouveau bien — Bien Caché">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+    <fieldset>
+      <legend>Vos coordonnées</legend>
+      <div class="field-grid">
+        <div class="field"><label for="v-prenom">Prénom</label><input type="text" id="v-prenom" name="prenom" required></div>
+        <div class="field"><label for="v-nom">Nom</label><input type="text" id="v-nom" name="nom" required></div>
+        <div class="field"><label for="v-email">Email</label><input type="email" id="v-email" name="email" required></div>
+        <div class="field"><label for="v-tel">Téléphone</label><input type="tel" id="v-tel" name="telephone" required></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Le bien</legend>
+      <div class="field-grid">
+        <div class="field full">
+          <label for="v-adresse">Adresse complète <span class="opt">(jamais publiée, réservée à notre vérification)</span></label>
+          <input type="text" id="v-adresse" name="adresse" required>
+        </div>
+        <div class="field">
+          <label for="v-arrondissement">Arrondissement</label>
+          <select id="v-arrondissement" name="arrondissement" required>
+            <option value="">Sélectionner</option>
+            <option>1er</option><option>2e</option><option>3e</option><option>4e</option><option>5e</option>
+            <option>6e</option><option>7e</option><option>8e</option><option>9e</option><option>10e</option>
+            <option>11e</option><option>12e</option><option>13e</option><option>14e</option><option>15e</option>
+            <option>16e</option><option>17e</option><option>18e</option><option>19e</option><option>20e</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="v-type">Type de bien</label>
+          <select id="v-type" name="type_bien" required>
+            <option value="">Sélectionner</option>
+            <option>Appartement</option><option>Maison</option><option>Loft</option><option>Duplex</option><option>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label for="v-surface">Surface (m²)</label><input type="number" id="v-surface" name="surface" required></div>
+        <div class="field"><label for="v-pieces">Nombre de pièces</label><input type="number" id="v-pieces" name="nb_pieces" required></div>
+        <div class="field"><label for="v-chambres">Nombre de chambres</label><input type="number" id="v-chambres" name="nb_chambres"></div>
+        <div class="field">
+          <label for="v-etage">Étage <span class="opt">(si appartement)</span></label>
+          <input type="text" id="v-etage" name="etage">
+        </div>
+        <div class="field">
+          <label for="v-ascenseur">Ascenseur</label>
+          <select id="v-ascenseur" name="ascenseur">
+            <option value="">—</option><option>Oui</option><option>Non</option>
+          </select>
+        </div>
+        <div class="field"><label for="v-prix">Prix souhaité (€)</label><input type="number" id="v-prix" name="prix" required></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Description</legend>
+      <div class="field full">
+        <label for="v-description">Points forts, particularités, ce qui rend ce bien recherché</label>
+        <textarea id="v-description" name="description"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Photos</legend>
+      <div class="field full">
+        <label for="v-photos">Ajoutez vos meilleures photos <span class="opt">(le bien n'étant jamais publié, ce sont elles qui seront envoyées par email aux acheteurs qualifiés)</span></label>
+        <input type="file" id="v-photos" name="photos" accept="image/*" multiple>
+        <div class="file-hint">Quelques photos bien choisies suffisent — évitez les fichiers trop volumineux.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="check-row required">
+        <input type="checkbox" id="v-exclusivite" name="engagement_exclusivite" value="oui" required>
+        <label for="v-exclusivite">Je m'engage à ne pas diffuser ce bien ailleurs (portails, agences, réseaux) pendant la durée d'exclusivité d'un mois.</label>
+      </div>
+      <div class="check-row required" style="margin-top:10px;">
+        <input type="checkbox" id="v-consentement" name="consentement" value="oui" required>
+        <label for="v-consentement">J'accepte d'être contacté par Bien Caché au sujet de ce bien.</label>
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn">Envoyer mon bien</button>
+    <div class="form-status" id="status-vendeur"></div>
+  </form>
+
+  <!-- FORMULAIRE ACHETEUR -->
+  <form id="form-acheteur" class="form-panel">
+    <input type="hidden" name="_subject" value="Nouvelle recherche — Bien Caché">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+    <fieldset>
+      <legend>Vos coordonnées</legend>
+      <div class="field-grid">
+        <div class="field"><label for="a-prenom">Prénom</label><input type="text" id="a-prenom" name="prenom" required></div>
+        <div class="field"><label for="a-nom">Nom</label><input type="text" id="a-nom" name="nom" required></div>
+        <div class="field"><label for="a-email">Email</label><input type="email" id="a-email" name="email" required></div>
+        <div class="field"><label for="a-tel">Téléphone <span class="opt">(optionnel)</span></label><input type="tel" id="a-tel" name="telephone"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Arrondissements recherchés</legend>
+      <div class="checkbox-grid">
+        <label><input type="checkbox" name="arrondissements" value="1er">1er</label>
+        <label><input type="checkbox" name="arrondissements" value="2e">2e</label>
+        <label><input type="checkbox" name="arrondissements" value="3e">3e</label>
+        <label><input type="checkbox" name="arrondissements" value="4e">4e</label>
+        <label><input type="checkbox" name="arrondissements" value="5e">5e</label>
+        <label><input type="checkbox" name="arrondissements" value="6e">6e</label>
+        <label><input type="checkbox" name="arrondissements" value="7e">7e</label>
+        <label><input type="checkbox" name="arrondissements" value="8e">8e</label>
+        <label><input type="checkbox" name="arrondissements" value="9e">9e</label>
+        <label><input type="checkbox" name="arrondissements" value="10e">10e</label>
+        <label><input type="checkbox" name="arrondissements" value="11e">11e</label>
+        <label><input type="checkbox" name="arrondissements" value="12e">12e</label>
+        <label><input type="checkbox" name="arrondissements" value="13e">13e</label>
+        <label><input type="checkbox" name="arrondissements" value="14e">14e</label>
+        <label><input type="checkbox" name="arrondissements" value="15e">15e</label>
+        <label><input type="checkbox" name="arrondissements" value="16e">16e</label>
+        <label><input type="checkbox" name="arrondissements" value="17e">17e</label>
+        <label><input type="checkbox" name="arrondissements" value="18e">18e</label>
+        <label><input type="checkbox" name="arrondissements" value="19e">19e</label>
+        <label><input type="checkbox" name="arrondissements" value="20e">20e</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Le bien recherché</legend>
+      <div class="field-grid">
+        <div class="field">
+          <label for="a-type">Type de bien</label>
+          <select id="a-type" name="type_bien">
+            <option value="">Indifférent</option>
+            <option>Appartement</option><option>Maison</option><option>Loft</option><option>Duplex</option>
+          </select>
+        </div>
+        <div class="field"><label for="a-surface">Surface minimum (m²)</label><input type="number" id="a-surface" name="surface_min"></div>
+        <div class="field"><label for="a-pieces">Nombre de pièces minimum</label><input type="number" id="a-pieces" name="pieces_min"></div>
+        <div class="field"><label for="a-chambres">Nombre de chambres minimum</label><input type="number" id="a-chambres" name="chambres_min"></div>
+        <div class="field"><label for="a-budget-min">Budget minimum (€)</label><input type="number" id="a-budget-min" name="budget_min"></div>
+        <div class="field"><label for="a-budget-max">Budget maximum (€)</label><input type="number" id="a-budget-max" name="budget_max" required></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Critères additionnels <span class="opt" style="font-size:12px; font-weight:400;">(optionnel)</span></legend>
+      <div class="checkbox-grid" style="grid-template-columns:repeat(3,1fr);">
+        <label><input type="checkbox" name="criteres" value="balcon_terrasse">Balcon / terrasse</label>
+        <label><input type="checkbox" name="criteres" value="ascenseur">Ascenseur</label>
+        <label><input type="checkbox" name="criteres" value="parking">Parking</label>
+        <label><input type="checkbox" name="criteres" value="cave">Cave</label>
+        <label><input type="checkbox" name="criteres" value="calme">Rue calme</label>
+        <label><input type="checkbox" name="criteres" value="dernier_etage">Dernier étage</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Le bien idéal, en quelques mots <span class="opt" style="font-size:12px; font-weight:400;">(optionnel)</span></legend>
+      <div class="field full">
+        <textarea id="a-description" name="description" placeholder="Tout critère qui compte pour vous et qu'on ne vous a pas demandé..."></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="check-row required">
+        <input type="checkbox" id="a-consentement" name="consentement" value="oui" required>
+        <label for="a-consentement">J'accepte de recevoir par email les biens qui correspondent à ma recherche.</label>
+      </div>
+      <div class="check-row required" style="margin-top:10px;">
+        <input type="checkbox" id="a-paiement" name="comprend_paiement" value="oui" required>
+        <label for="a-paiement">Je comprends que l'accès aux coordonnées d'un propriétaire est payant (4,99 € par bien débloqué) et n'intervient qu'à ma demande.</label>
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn">Envoyer ma recherche</button>
+    <div class="form-status" id="status-acheteur"></div>
+  </form>
+
+</div>
+
+<script>
+  var FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/antoine.ballif@gmail.com';
+
+  var toggleBtns = document.querySelectorAll('.toggle button');
+  var panels = { vendeur: document.getElementById('form-vendeur'), acheteur: document.getElementById('form-acheteur') };
+  toggleBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      toggleBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      Object.keys(panels).forEach(function(k){ panels[k].classList.remove('active'); });
+      panels[btn.dataset.panel].classList.add('active');
+    });
+  });
+
+  function handleFormSubmit(form, statusEl, successMessage){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      statusEl.textContent = 'Envoi en cours...';
+      fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      }).then(function(response){
+        if(response.ok){
+          form.reset();
+          statusEl.textContent = successMessage;
+        } else {
+          statusEl.textContent = "L'envoi a échoué. Réessayez ou écrivez à contact@biencache.fr.";
+          submitBtn.disabled = false;
+        }
+      }).catch(function(){
+        statusEl.textContent = "L'envoi a échoué. Réessayez ou écrivez à contact@biencache.fr.";
+        submitBtn.disabled = false;
+      });
+    });
+  }
+
+  handleFormSubmit(document.getElementById('form-vendeur'), document.getElementById('status-vendeur'), 'Bien reçu — nous revenons vers vous sous 48h.');
+  handleFormSubmit(document.getElementById('form-acheteur'), document.getElementById('status-acheteur'), "Recherche enregistrée — vous serez alerté dès qu'un bien correspond.");
+</script>
+
+</body>
+</html>
   .toggle{display:flex; gap:0; margin:48px 0 32px; border:1px solid var(--ink); max-width:420px;}
   .toggle button{
     flex:1; padding:13px; font-family:'Archivo',sans-serif; font-size:14px; font-weight:600;
